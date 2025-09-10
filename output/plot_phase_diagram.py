@@ -6,10 +6,10 @@ import matplotlib.colors as mcolors
 import os
 
 # ==== 設定 ====
-j_val = "10"
+j_val = "0p3"
 mesh_size = 200
-input_file = f"./phase_diagram_data/phase_diagram_{j_val}_{mesh_size}.dat"
-output_dir = "./phase_diagram_plot"
+input_file = f"./phase_diagram_data_rev/phase_diagram_{j_val}_{mesh_size}.dat"
+output_dir = "./phase_diagram_plot_rev"
 output_file = f"{output_dir}/phase_diagram_{j_val}_{mesh_size}.png"
 
 # ==== 出力ディレクトリ作成 ====
@@ -19,7 +19,7 @@ os.makedirs(output_dir, exist_ok=True)
 df = pd.read_csv(input_file)
 
 # ==== stable を数値に変換 ====
-stable_categories = ["fm", "afm", "uuuddd", "ududdd", "uudddd", "uddddd"]
+stable_categories = ["fm", "afm", "uuuddd", "ududdd", "dududd", "uudddd", "uddddd", "dudddd"]
 cat_to_num = {cat: i for i, cat in enumerate(stable_categories)}
 df['stable_num'] = df['stable'].map(cat_to_num)
 

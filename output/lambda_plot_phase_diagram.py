@@ -6,9 +6,9 @@ import matplotlib.colors as mcolors
 import os
 
 # ==== 設定 ====
-lambda_val = "0p175"
+lambda_val = "0p225"
 mesh_size = 200
-input_file = f"./lambda_phase_diagram_data/lambda_phase_diagram_{lambda_val}_{mesh_size}.dat"
+input_file = f"./lambda_phase_diagram_data_rev/lambda_phase_diagram_{lambda_val}_{mesh_size}.dat"
 output_dir = "./lambda_phase_diagram_plot"
 output_file = f"{output_dir}/lambda_phase_diagram_{lambda_val}_{mesh_size}.png"
 
@@ -19,7 +19,7 @@ os.makedirs(output_dir, exist_ok=True)
 df = pd.read_csv(input_file)
 
 # ==== stable を数値に変換 ====
-stable_categories = ["fm", "afm", "uuuddd", "ududdd", "uudddd", "uddddd"]
+stable_categories = ["fm", "afm", "uuuddd", "ududdd", "dududd", "uudddd", "uddddd", "dudddd"]
 cat_to_num = {cat: i for i, cat in enumerate(stable_categories)}
 df['stable_num'] = df['stable'].map(cat_to_num)
 

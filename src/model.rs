@@ -38,6 +38,18 @@ impl SpinSeq {
             self.f.to_string().replace('.', "p")
         )
     }
+    pub fn debug_ud(&self) -> String {
+        format!(
+            "{}{}{}{}{}{}",
+            if self.a > 0.{"+"}else{"-"},
+            if self.b > 0.{"+"}else{"-"},
+            if self.c > 0.{"+"}else{"-"},
+            if self.d > 0.{"+"}else{"-"},
+            if self.e > 0.{"+"}else{"-"},
+            if self.f > 0.{"+"}else{"-"},
+
+        )
+    }
     pub fn fm() -> Self{
         SpinSeq::new(1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
     }
@@ -50,14 +62,17 @@ impl SpinSeq {
     pub fn one() -> Self{
         SpinSeq::new(1.0, 1.0, 1.0, 1.0, 1.0, -1.0)
     }
+    pub fn one2() -> Self{
+        SpinSeq::new(1.0, 1.0, 1.0, 1.0, -1.0, 1.0)
+    }
     pub fn twin() -> Self{
         SpinSeq::new(1.0, 1.0, 1.0, 1.0, -1.0, -1.0)
     }
     pub fn tri() -> Self{
         SpinSeq::new(1.0, 1.0, 1.0, -1.0, 1.0, -1.0)
     }
-    pub fn face() -> Self{
-        SpinSeq::new(1.0, 1.0, -1.0, 1.0, 1.0, -1.0)
+    pub fn tri2() -> Self{
+        SpinSeq::new(1.0, 1.0, -1.0, 1.0, -1.0, 1.0)
     }
     pub fn para() -> Self{
         SpinSeq::new(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)

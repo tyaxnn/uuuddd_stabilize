@@ -15,7 +15,7 @@ pub fn phase_diagram_lambda(
 ) { 
 
     let filename = &format!(
-        "./output/lambda_phase_diagram_data/lambda_phase_diagram_{}_{}.dat",
+        "./output/lambda_phase_diagram_data_rev/lambda_phase_diagram_{}_{}.dat",
         lambda.to_string().replace('.', "p"),
         graph_mesh
     );
@@ -37,8 +37,10 @@ pub fn phase_diagram_lambda(
         let energy_afm = cal_e_vs_n(param, &SpinSeq::afm(), graph_mesh);
         let energy_uuuddd = cal_e_vs_n(param, &SpinSeq::uuuddd(), graph_mesh);
         let energy_tri = cal_e_vs_n(param, &SpinSeq::tri(), graph_mesh);
+        let energy_tri2 = cal_e_vs_n(param, &SpinSeq::tri2(), graph_mesh);
         let energy_twin = cal_e_vs_n(param, &SpinSeq::twin(), graph_mesh);
         let energy_one = cal_e_vs_n(param, &SpinSeq::one(), graph_mesh);
+        let energy_one2 = cal_e_vs_n(param, &SpinSeq::one2(), graph_mesh);
 
         for j in 0..=100 {
             let n = j as f64 / 100.0;
@@ -46,8 +48,10 @@ pub fn phase_diagram_lambda(
             let eafm = energy_afm[j];
             let euuuddd = energy_uuuddd[j];
             let etri = energy_tri[j];
+            let etri2 = energy_tri2[j];
             let etwin = energy_twin[j];
             let eone = energy_one[j];
+            let eone2 = energy_one2[j];
 
             // ベクタで最小値と対応する名前を取得
             let energies = [
@@ -55,8 +59,10 @@ pub fn phase_diagram_lambda(
                 (eafm, "afm"),
                 (euuuddd, "uuuddd"),
                 (etri, "ududdd"),
+                (etri2, "dududd"),
                 (etwin, "uudddd"),
                 (eone, "uddddd"),
+                (eone2, "dudddd"),
             ];
 
             // 最小エネルギーとその名前を選ぶ
@@ -81,7 +87,7 @@ pub fn phase_diagram_j(
 ) { 
 
     let filename = &format!(
-        "./output/phase_diagram_data/phase_diagram_{}_{}.dat",
+        "./output/phase_diagram_data_rev/phase_diagram_{}_{}.dat",
         jj.to_string().replace('.', "p"),
         graph_mesh
     );
@@ -103,8 +109,10 @@ pub fn phase_diagram_j(
         let energy_afm = cal_e_vs_n(param, &SpinSeq::afm(), graph_mesh);
         let energy_uuuddd = cal_e_vs_n(param, &SpinSeq::uuuddd(), graph_mesh);
         let energy_tri = cal_e_vs_n(param, &SpinSeq::tri(), graph_mesh);
+        let energy_tri2 = cal_e_vs_n(param, &SpinSeq::tri2(), graph_mesh);
         let energy_twin = cal_e_vs_n(param, &SpinSeq::twin(), graph_mesh);
         let energy_one = cal_e_vs_n(param, &SpinSeq::one(), graph_mesh);
+        let energy_one2 = cal_e_vs_n(param, &SpinSeq::one2(), graph_mesh);
 
         for j in 0..=100 {
             let n = j as f64 / 100.0;
@@ -112,8 +120,10 @@ pub fn phase_diagram_j(
             let eafm = energy_afm[j];
             let euuuddd = energy_uuuddd[j];
             let etri = energy_tri[j];
+            let etri2 = energy_tri2[j];
             let etwin = energy_twin[j];
             let eone = energy_one[j];
+            let eone2 = energy_one2[j];
 
             // ベクタで最小値と対応する名前を取得
             let energies = [
@@ -121,8 +131,10 @@ pub fn phase_diagram_j(
                 (eafm, "afm"),
                 (euuuddd, "uuuddd"),
                 (etri, "ududdd"),
+                (etri2, "dududd"),
                 (etwin, "uudddd"),
                 (eone, "uddddd"),
+                (eone2, "dudddd"),
             ];
 
             // 最小エネルギーとその名前を選ぶ
@@ -137,6 +149,50 @@ pub fn phase_diagram_j(
 
     }
     
+
+    println!("3スピン系列のエネルギーを '{filename}' に保存しました。");
+}
+
+pub fn output_all_energy_vs_n_reviced(
+    param: &Param,
+    graph_mesh: usize,
+) {
+        let energy_fm = cal_e_vs_n(param, &SpinSeq::fm(), graph_mesh);
+        let energy_afm = cal_e_vs_n(param, &SpinSeq::afm(), graph_mesh);
+        let energy_uuuddd = cal_e_vs_n(param, &SpinSeq::uuuddd(), graph_mesh);
+        let energy_tri = cal_e_vs_n(param, &SpinSeq::tri(), graph_mesh);
+        let energy_tri2 = cal_e_vs_n(param, &SpinSeq::tri2(), graph_mesh);
+        let energy_twin = cal_e_vs_n(param, &SpinSeq::twin(), graph_mesh);
+        let energy_one = cal_e_vs_n(param, &SpinSeq::one(), graph_mesh);
+        let energy_one2 = cal_e_vs_n(param, &SpinSeq::one2(), graph_mesh);
+
+    let filename = &format!(
+        "./output/change_n_data/energy_vs_n_{}.dat",
+        param.debug(),
+    );
+
+    let path = Path::new(filename);
+    let file = File::create(path).expect("ファイル作成に失敗しました");
+    let mut writer = BufWriter::new(file);
+
+    writeln!(writer, "#n,fm,afm,afm2,uuuddd,uudddu,ududddd,dududd,uudddd,uddddd,dudddd").unwrap();
+
+    for i in 0..=100 {
+        //let epara = energy_para[i];
+
+        let n = i as f64 / 100.0;
+        let efm = energy_fm[i];
+        let eafm = energy_afm[i] - efm;
+        let euuuddd = energy_uuuddd[i] - efm;
+        let etri = energy_tri[i] - efm;
+        let etri2 = energy_tri2[i] - efm;
+        let etwin = energy_twin[i] - efm;
+        let eone = energy_one[i] - efm;
+        let eone2 = energy_one2[i] - efm;
+
+
+        writeln!(writer, "{:.3},{:.10},{:.10},{:.10},{:.10},{:.10},{:.10},{:.10},{:.10}", n, efm - efm, eafm, euuuddd, etri, etri2, etwin, eone, eone2).unwrap();
+    }
 
     println!("3スピン系列のエネルギーを '{filename}' に保存しました。");
 }
